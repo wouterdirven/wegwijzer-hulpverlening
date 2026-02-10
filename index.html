@@ -5,130 +5,667 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wegwijzer Hulpverlening Vlaanderen</title>
     <style>
-        body { font-family: sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f4f4f9; color: #333; }
-        header { background: #004a99; color: white; padding: 1rem; text-align: center; }
-        .crisis-banner { background: #d9534f; color: white; padding: 10px; text-align: center; font-weight: bold; position: sticky; top: 0; z-index: 1000; }
-        .container { max-width: 800px; margin: 2rem auto; padding: 1.5rem; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .question { font-size: 1.2rem; margin-bottom: 1rem; font-weight: bold; }
-        .btn { display: block; width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; transition: background 0.3s; text-align: left; }
-        .btn:hover { background: #e2e6ea; }
-        .btn-primary { background: #007bff; color: white; text-align: center; }
-        .btn-primary:hover { background: #0056b3; }
-        .hidden { display: none; }
-        .result { padding: 15px; border-left: 5px solid #28a745; background: #f8f9fa; }
-        .nood { border-left: 5px solid #d9534f; background: #fff5f5; }
-        h2 { margin-top: 0; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            padding-top: 140px;
+        }
+
+        .crisis-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #dc2626;
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .crisis-banner a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        header {
+            position: fixed;
+            top: 44px;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+        }
+
+        header h1 {
+            color: #667eea;
+            font-size: 28px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            margin: 8px 4px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #64748b;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .btn-success {
+            background: #16a34a;
+        }
+
+        .btn-success:hover {
+            background: #15803d;
+        }
+
+        .button-group {
+            margin-top: 30px;
+        }
+
+        .crisis-info {
+            background: #fee2e2;
+            border-left: 4px solid #dc2626;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .crisis-info h3 {
+            color: #dc2626;
+            margin-bottom: 15px;
+        }
+
+        .crisis-info ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .crisis-info li {
+            padding: 8px 0;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .help-card {
+            background: #f8fafc;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+
+        .help-card h3 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 22px;
+        }
+
+        .help-card h4 {
+            color: #333;
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+
+        .help-card p {
+            margin-bottom: 12px;
+        }
+
+        .help-card a {
+            color: #667eea;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .help-card a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-info {
+            background: #eff6ff;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                padding-top: 140px;
+            }
+
+            .container {
+                padding: 24px;
+            }
+
+            header h1 {
+                font-size: 22px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .btn {
+                display: block;
+                width: 100%;
+                margin: 8px 0;
+            }
+        }
     </style>
 </head>
 <body>
-
-<div class="crisis-banner">
-    Dringende nood? Bel 112 (Hulpdiensten) of 1813 (Zelfmoordlijn) of 1712 (Geweld)
-</div>
-
-<header>
-    <h1>Wegwijzer Hulpverlening</h1>
-</header>
-
-<div class="container" id="app">
-    <!-- START -->
-    <div id="step-start">
-        <h2>Welkom</h2>
-        <p>Beantwoord enkele korte vragen om de juiste hulpverlening in Vlaanderen te vinden. De site is anoniem en gratis.</p>
-        <button class="btn btn-primary" onclick="nextStep('step-who')">Start de vragenlijst</button>
+    <div class="crisis-banner">
+        🚨 Dringende nood? Bel 112 (algemeen) / 1813 (zelfmoordlijn) / 1712 (geweld)
     </div>
 
-    <!-- VRAAG 1: WIE -->
-    <div id="step-who" class="hidden">
-        <p class="question">Voor wie zoek je hulp?</p>
-        <button class="btn" onclick="setWho('jongere'); nextStep('step-crisis')">Ik ben jonger dan 25 en zoek hulp voor mezelf</button>
-        <button class="btn" onclick="setWho('ouder'); nextStep('step-crisis')">Ik ben een ouder/opvoeder en zoek hulp voor mijn kind</button>
-        <button class="btn" onclick="setWho('volwassene'); nextStep('step-crisis')">Ik ben 25+ en zoek hulp voor mezelf</button>
+    <header>
+        <h1>Wegwijzer Hulpverlening Vlaanderen</h1>
+    </header>
+
+    <div class="container">
+        <!-- Stap 1: Welkom -->
+        <div id="step-welcome" class="step active">
+            <h2>Welkom bij de Wegwijzer Hulpverlening</h2>
+            <p>Deze wegwijzer helpt je de juiste hulpverlening te vinden in Vlaanderen. In een paar stappen kom je bij de organisatie die het beste bij jouw situatie past.</p>
+            <p>De wegwijzer is bedoeld voor:</p>
+            <ul style="margin-left: 20px; margin-bottom: 20px; color: #555; line-height: 1.8;">
+                <li>Jongeren die hulp zoeken voor zichzelf</li>
+                <li>Ouders die hulp zoeken voor hun kind</li>
+                <li>Volwassenen die hulp zoeken voor zichzelf</li>
+            </ul>
+            <p><strong>Het invullen duurt ongeveer 2 minuten.</strong></p>
+            <div class="button-group">
+                <button class="btn" onclick="nextStep('step-who')">Start</button>
+            </div>
+        </div>
+
+        <!-- Stap 2: Voor wie? -->
+        <div id="step-who" class="step">
+            <h2>Voor wie zoek je hulp?</h2>
+            <div class="button-group">
+                <button class="btn" onclick="setWho('ouders')">Voor mijn kind (ik ben ouder/opvoeder)</button>
+                <button class="btn" onclick="setWho('jongere')">Voor mezelf (ik ben 12-25 jaar)</button>
+                <button class="btn" onclick="setWho('volwassene')">Voor mezelf (ik ben 25+)</button>
+            </div>
+        </div>
+
+        <!-- Stap 3: Crisisvraag -->
+        <div id="step-crisis" class="step">
+            <h2>Is er NU sprake van gevaar?</h2>
+            <p>Is er direct gevaar voor jezelf of iemand anders? Denk aan: zelfmoordgedachten met plan, geweld, ernstige verwaarlozing, acute psychose.</p>
+            <div class="button-group">
+                <button class="btn btn-danger" onclick="nextStep('step-crisis-info')">Ja, er is nu gevaar</button>
+                <button class="btn btn-success" onclick="routeAfterCrisis()">Nee, geen direct gevaar</button>
+            </div>
+        </div>
+
+        <!-- Crisis informatie -->
+        <div id="step-crisis-info" class="step">
+            <h2>Noodhulp - Bel direct!</h2>
+            <div class="crisis-info">
+                <h3>Neem direct contact op:</h3>
+                <ul>
+                    <li>📞 <strong>112</strong> - Algemeen noodnummer (ambulance, brandweer, politie)</li>
+                    <li>📞 <strong>1813</strong> - Zelfmoordlijn (24/7, anoniem, gratis)</li>
+                    <li>📞 <strong>1712</strong> - Geweld, misbruik, kindermishandeling (24/7, gratis)</li>
+                    <li>📞 <strong>101</strong> - Politie (niet-dringend)</li>
+                </ul>
+            </div>
+            <p><strong>Deze hulplijnen zijn 24 uur per dag, 7 dagen per week bereikbaar.</strong></p>
+            <p>Wil je toch verder met de wegwijzer voor niet-acute hulp?</p>
+            <div class="button-group">
+                <button class="btn" onclick="routeAfterCrisis()">Verder met wegwijzer</button>
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- OUDERS STROOM -->
+        <!-- Ouders: Leeftijd -->
+        <div id="step-ouders-leeftijd" class="step">
+            <h2>Hoe oud is je kind?</h2>
+            <div class="button-group">
+                <button class="btn" onclick="setAge('0-3'); nextStep('step-ouders-zorg')">0-3 jaar</button>
+                <button class="btn" onclick="setAge('3-12'); nextStep('step-ouders-zorg')">3-12 jaar</button>
+                <button class="btn" onclick="setAge('12-18'); nextStep('step-ouders-zorg')">12-18 jaar</button>
+                <button class="btn" onclick="setAge('18-25'); nextStep('step-ouders-zorg')">18-25 jaar</button>
+            </div>
+        </div>
+
+        <!-- Ouders: Grootste zorg -->
+        <div id="step-ouders-zorg" class="step">
+            <h2>Wat is je grootste zorg?</h2>
+            <div class="button-group">
+                <button class="btn" onclick="showResult('hvk')">Opvoeding of gedrag</button>
+                <button class="btn" onclick="showResult('clb')">School of leren</button>
+                <button class="btn" onclick="showResult('cgg')">Mentale gezondheid</button>
+                <button class="btn" onclick="showResult('vaph')">Handicap of ontwikkeling</button>
+                <button class="btn" onclick="showResult('vk')">Geweld of verwaarlozing</button>
+            </div>
+        </div>
+
+        <!-- JONGEREN STROOM -->
+        <!-- Jongeren: Leeftijd -->
+        <div id="step-jongeren-leeftijd" class="step">
+            <h2>Hoe oud ben je?</h2>
+            <div class="button-group">
+                <button class="btn" onclick="setAge('12-17'); nextStep('step-jongeren-zorg')">12-17 jaar</button>
+                <button class="btn" onclick="setAge('18-25'); nextStep('step-jongeren-zorg')">18-25 jaar</button>
+            </div>
+        </div>
+
+        <!-- Jongeren: Grootste zorg -->
+        <div id="step-jongeren-zorg" class="step">
+            <h2>Waar maak je je het meest zorgen over?</h2>
+            <div class="button-group">
+                <button class="btn" onclick="showResult('clb')">School of pesten</button>
+                <button class="btn" onclick="showResult('jac')">Problemen thuis of met vrienden</button>
+                <button class="btn" onclick="showResult('cgg')">Psychische problemen (angst, depressie)</button>
+                <button class="btn" onclick="showResult('caw-middelen')">Alcohol of drugs</button>
+                <button class="btn" onclick="showResult('ocmw')">Geld of wonen</button>
+            </div>
+        </div>
+
+        <!-- VOLWASSENEN STROOM -->
+        <!-- Volwassenen: Hoofdvraag -->
+        <div id="step-volwassenen-vraag" class="step">
+            <h2>Waar heb je hulp bij nodig?</h2>
+            <div class="button-group">
+                <button class="btn" onclick="showResult('cgg')">Psychische klachten</button>
+                <button class="btn" onclick="showResult('caw')">Relatie of gezinsproblemen</button>
+                <button class="btn" onclick="showResult('ocmw')">Geld, schulden of werk</button>
+                <button class="btn" onclick="showResult('sleutel')">Verslaving</button>
+                <button class="btn" onclick="showResult('caw-geweld')">Geweld in relatie</button>
+            </div>
+        </div>
+
+        <!-- RESULTAAT PAGINA'S -->
+        <!-- CAW -->
+        <div id="result-caw" class="step">
+            <h2>Jouw hulpinstantie</h2>
+            <div class="help-card">
+                <h3>CAW - Centrum Algemeen Welzijnswerk</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                Het CAW biedt hulp bij welzijn, relaties, opvoeding, schulden en geweld. Ze luisteren naar je verhaal en zoeken samen met jou naar oplossingen. De hulp is laagdrempelig en vertrouwelijk.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Telefoon:</strong> 0800 13 500 (gratis)<br>
+                    <strong>Bereikbaar:</strong> Maandag t/m vrijdag van 9u tot 17u<br>
+                    <strong>Website:</strong> <a href="https://www.caw.be" target="_blank">www.caw.be</a></p>
+                </div>
+
+                <h4>Wat kun je doen?</h4>
+                <p>Je kunt telefonisch contact opnemen of via de website een CAW bij jou in de buurt zoeken. De eerste hulpverlening is gratis. Je kunt ook gewoon langsgaan bij een CAW-locatie.</p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- CAW Geweld -->
+        <div id="result-caw-geweld" class="step">
+            <h2>Jouw hulpinstantie</h2>
+            <div class="help-card">
+                <h3>CAW - Centrum Algemeen Welzijnswerk</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                Het CAW biedt gespecialiseerde hulp bij partnergeweld en huiselijk geweld. Ze kunnen je helpen met een veiligheidsplan, opvang en juridische stappen. De hulp is vertrouwelijk.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Telefoon:</strong> 0800 13 500 (gratis)<br>
+                    <strong>1712:</strong> Meldpunt geweld (24/7, gratis)<br>
+                    <strong>Website:</strong> <a href="https://www.caw.be" target="_blank">www.caw.be</a></p>
+                </div>
+
+                <h4>Direct gevaar?</h4>
+                <p>Bij direct gevaar bel 112 (politie). Voor advies en ondersteuning bij geweld kun je altijd terecht bij 1712 (24/7 bereikbaar).</p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- CAW Middelen -->
+        <div id="result-caw-middelen" class="step">
+            <h2>Jouw hulpinstantie</h2>
+            <div class="help-card">
+                <h3>CAW - Centrum Algemeen Welzijnswerk</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                Het CAW heeft gespecialiseerde begeleiding voor jongeren met alcohol- of drugsproblemen. Ze bieden advies, begeleiding en kunnen doorverwijzen naar verdere hulp als dat nodig is.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Telefoon:</strong> 0800 13 500 (gratis)<br>
+                    <strong>Website:</strong> <a href="https://www.caw.be" target="_blank">www.caw.be</a></p>
+                </div>
+
+                <h4>Ook nuttig</h4>
+                <p>Voor gespecialiseerde verslavingszorg kun je ook terecht bij <strong>De Sleutel</strong>: <a href="https://www.desleutel.be" target="_blank">www.desleutel.be</a></p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- CLB -->
+        <div id="result-clb" class="step">
+            <h2>Jouw hulpinstantie</h2>
+            <div class="help-card">
+                <h3>CLB - Centrum voor Leerlingenbegeleiding</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                Het CLB helpt bij problemen op school zoals leerproblemen, pesten, schoolstress en studiebegeleiding. Elke school werkt samen met een CLB. De begeleiding is gratis en vertrouwelijk.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Via je school:</strong> Vraag op school naar het CLB<br>
+                    <strong>Online chatten:</strong> <a href="https://www.clbchat.be" target="_blank">www.clbchat.be</a><br>
+                    <strong>Algemene info:</strong> Via je school of gemeente</p>
+                </div>
+
+                <h4>Wat kun je doen?</h4>
+                <p>Neem contact op met je school om in contact te komen met het CLB. Je kunt ook rechtstreeks online chatten via CLBch@t voor advies.</p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- CGG -->
+        <div id="result-cgg" class="step">
+            <h2>Jouw hulpinstantie</h2>
+            <div class="help-card">
+                <h3>CGG - Centrum Geestelijke Gezondheidszorg</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                Het CGG biedt gespecialiseerde hulp bij psychische problemen zoals depressie, angst, trauma, eetstoornissen en andere mentale klachten. Er werken psychologen, psychiaters en andere hulpverleners.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Via huisarts:</strong> Vraag een verwijzing aan je huisarts<br>
+                    <strong>Zelf zoeken:</strong> <a href="https://www.zorgzoeker.be/cgg" target="_blank">www.zorgzoeker.be/cgg</a><br>
+                    <strong>Direct contact:</strong> Je kunt ook zelf een CGG bellen</p>
+                </div>
+
+                <h4>Wat kun je doen?</h4>
+                <p>Zoek via de website een CGG bij jou in de buurt en bel voor een afspraak. Je hoeft niet per se via de huisarts, maar dat kan wel helpen bij de doorverwijzing. De eerste consulten zijn goedkoop of gratis.</p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- Huis van het Kind -->
+        <div id="result-hvk" class="step">
+            <h2>Jouw hulpinstantie</h2>
+            <div class="help-card">
+                <h3>Huis van het Kind</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                Het Huis van het Kind biedt gratis ondersteuning bij opvoeding voor kinderen van 0 tot 18 jaar. Ze helpen bij opvoedingsvragen, gedragsproblemen, slapen, eten en alle andere vragen over opvoeden.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Website:</strong> <a href="https://www.huizenvanhetkind.be" target="_blank">www.huizenvanhetkind.be</a><br>
+                    <strong>Vind je lokale Huis:</strong> Via de website kun je het Huis van het Kind bij jou in de gemeente vinden</p>
+                </div>
+
+                <h4>Wat kun je doen?</h4>
+                <p>Zoek via de website het Huis van het Kind in jouw gemeente. Je kunt telefonisch contact opnemen, langsgaan of online een vraag stellen. De hulp is laagdrempelig en gratis. Je kunt er ook terecht voor oudergesprekken en opvoedingsadvies.</p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- JAC -->
+        <div id="result-jac" class="step">
+            <h2>Jouw hulpinstantie</h2>
+            <div class="help-card">
+                <h3>JAC - Jongerenwelzijnswerk</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                Het JAC is een plek waar je als jongere terecht kunt voor ontmoeting, activiteiten en begeleiding. Ze helpen bij problemen thuis, met vrienden, op school of andere vragen. Het is laagdrempelig en je hoeft geen afspraak te maken.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Website:</strong> <a href="https://www.jac.be" target="_blank">www.jac.be</a><br>
+                    <strong>Vind je lokale JAC:</strong> Via de website kun je een JAC bij jou in de buurt zoeken</p>
+                </div>
+
+                <h4>Wat kun je doen?</h4>
+                <p>Zoek via de website een JAC bij jou in de buurt. Je kunt gewoon binnenlopen tijdens de openingsuren. Er zijn jongerenwerkers die je kunnen helpen en er zijn ook leuke activiteiten.</p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- VAPH -->
+        <div id="result-vaph" class="step">
+            <h2>Jouw hulpinstantie</h2>
+            <div class="help-card">
+                <h3>VAPH - Vlaams Agentschap voor Personen met een Handicap</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                Het VAPH biedt ondersteuning voor personen met een handicap of ontwikkelingsproblemen. Ze kunnen helpen met het aanvragen van een budget voor ondersteuning, hulpmiddelen, begeleiding en andere voorzieningen.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Telefoon:</strong> 1700<br>
+                    <strong>Website:</strong> <a href="https://www.vaph.be" target="_blank">www.vaph.be</a></p>
+                </div>
+
+                <h4>Wat kun je doen?</h4>
+                <p>Bel naar 1700 voor informatie en advies. Via de website kun je meer info vinden over aanvragen en ondersteuning. Het VAPH kan je ook doorverwijzen naar lokale organisaties die concrete hulp bieden.</p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- Vertrouwenscentrum Kindermishandeling -->
+        <div id="result-vk" class="step">
+            <h2>Jouw hulpinstantie</h2>
+            <div class="help-card">
+                <h3>Vertrouwenscentrum Kindermishandeling</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                Het Vertrouwenscentrum Kindermishandeling helpt bij vermoedens van geweld, misbruik of verwaarlozing van kinderen. Ze onderzoeken de situatie, bieden hulp aan het kind en het gezin en schakelen indien nodig andere hulpverlening in.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Meldpunt:</strong> 1712 (24/7, gratis)<br>
+                    <strong>Website:</strong> <a href="https://www.kindengezin.be/vertrouwenscentrum" target="_blank">www.kindengezin.be/vertrouwenscentrum</a></p>
+                </div>
+
+                <h4>Wat kun je doen?</h4>
+                <p>Bel 1712 om je zorgen te bespreken. Je kunt anoniem bellen. Het meldpunt is 24 uur per dag, 7 dagen per week bereikbaar. Ze luisteren naar je verhaal en geven advies over vervolgstappen.</p>
+
+                <h4>Direct gevaar?</h4>
+                <p>Bij direct gevaar voor het kind, bel 112 (politie/ambulance).</p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- OCMW -->
+        <div id="result-ocmw" class="step">
+            <h2>Jouw hulpinstantie</h2>
+            <div class="help-card">
+                <h3>OCMW - Openbaar Centrum voor Maatschappelijk Welzijn</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                Het OCMW helpt bij financiële problemen, schulden, huisvesting, werk en sociale uitkeringen. Ze kunnen financiële steun bieden, helpen met schuldbemiddeling en ondersteunen bij het vinden van werk of woonruimte.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Lokaal OCMW:</strong> Elk gemeente heeft een eigen OCMW<br>
+                    <strong>Contact opnemen:</strong> Zoek online naar "OCMW [jouw gemeente]" of bel het gemeentehuis</p>
+                </div>
+
+                <h4>Wat kun je doen?</h4>
+                <p>Zoek het OCMW van jouw gemeente en maak een afspraak. Neem indien mogelijk je identiteitskaart, bewijzen van inkomen en eventuele schuldendocumenten mee. Het OCMW bekijkt je situatie en kijkt welke hulp mogelijk is.</p>
+
+                <h4>Recht op hulp</h4>
+                <p>Iedereen in België heeft recht op maatschappelijke dienstverlening van het OCMW. Je moet wel ingeschreven zijn in de gemeente waar je hulp aanvraagt.</p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- De Sleutel -->
+        <div id="result-sleutel" class="step">
+            <h2>Jouw hulpinstantie</h2>
+            <div class="help-card">
+                <h3>De Sleutel - Verslavingszorg</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                De Sleutel biedt gespecialiseerde hulp bij verslaving aan alcohol, drugs of gokken. Ze bieden ambulante begeleiding, residentiële behandeling en nazorg. De hulp is gericht op herstel en het herwinnen van controle over je leven.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Website:</strong> <a href="https://www.desleutel.be" target="_blank">www.desleutel.be</a><br>
+                    <strong>Contact opnemen:</strong> Via de website kun je een locatie bij jou in de buurt vinden en contact opnemen</p>
+                </div>
+
+                <h4>Wat kun je doen?</h4>
+                <p>Zoek via de website een vestiging van De Sleutel bij jou in de buurt. Je kunt telefonisch contact opnemen voor een intake gesprek. De eerste stap is een gesprek waarin jullie samen kijken welke hulp passend is.</p>
+
+                <h4>Andere opties</h4>
+                <p>Ook het CAW biedt hulp bij middelenproblemen: <strong>0800 13 500</strong></p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
     </div>
 
-    <!-- VRAAG 2: CRISIS -->
-    <div id="step-crisis" class="hidden">
-        <p class="question">Is er NU sprake van direct gevaar of een ernstige crisis?</p>
-        <button class="btn" onclick="nextStep('result-crisis')">Ja, er is nu direct gevaar</button>
-        <button class="btn" onclick="nextStep('step-age-ouder')">Nee, er is geen direct gevaar</button>
-    </div>
+    <script>
+        let userData = {
+            who: '',
+            age: ''
+        };
 
-    <!-- STROOM OUDER - VRAAG 3: LEEFTIJD -->
-    <div id="step-age-ouder" class="hidden">
-        <p class="question">Hoe oud is je kind?</p>
-        <button class="btn" onclick="nextStep('step-problem-ouder')">0 tot 3 jaar</button>
-        <button class="btn" onclick="nextStep('step-problem-ouder')">3 tot 12 jaar</button>
-        <button class="btn" onclick="nextStep('step-problem-ouder')">12 tot 18 jaar</button>
-        <button class="btn" onclick="nextStep('step-problem-ouder')">18 tot 25 jaar</button>
-    </div>
+        function nextStep(stepId) {
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById(stepId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
 
-    <!-- STROOM OUDER - VRAAG 4: PROBLEEM -->
-    <div id="step-problem-ouder" class="hidden">
-        <p class="question">Waar gaat je grootste zorg over?</p>
-        <button class="btn" onclick="nextStep('result-caw')">Opvoeding, gezin of gedrag</button>
-        <button class="btn" onclick="nextStep('result-clb')">School, leren of pesten</button>
-        <button class="btn" onclick="nextStep('result-cgg')">Mentale gezondheid of emotionele problemen</button>
-    </div>
+        function setWho(type) {
+            userData.who = type;
+            nextStep('step-crisis');
+        }
 
-    <!-- RESULTATEN -->
-    <div id="result-crisis" class="hidden result nood">
-        <h2>Contacteer direct hulp</h2>
-        <p>Bij direct gevaar, bel onmiddellijk:</p>
-        <ul>
-            <li><strong>112</strong> - Algemeen noodnummer</li>
-            <li><strong>101</strong> - Politie</li>
-            <li><strong>1712</strong> - Bij geweld, misbruik of kindermishandeling</li>
-        </ul>
-        <button class="btn btn-primary" onclick="restart()">Opnieuw beginnen</button>
-    </div>
+        function setAge(age) {
+            userData.age = age;
+        }
 
-    <div id="result-caw" class="hidden result">
-        <h2>CAW (Centrum Algemeen Welzijnswerk)</h2>
-        <p>Het CAW helpt mensen met al hun vragen over welzijn. Voor ouders bieden ze opvoedingshulp en ondersteuning.</p>
-        <p><strong>Website:</strong> <a href="https://www.caw.be" target="_blank">www.caw.be</a></p>
-        <p><strong>Contact:</strong> Bel gratis 0800 13 500 (elke werkdag 9u-17u)</p>
-        <button class="btn btn-primary" onclick="restart()">Opnieuw beginnen</button>
-    </div>
+        function routeAfterCrisis() {
+            if (userData.who === 'ouders') {
+                nextStep('step-ouders-leeftijd');
+            } else if (userData.who === 'jongere') {
+                nextStep('step-jongeren-leeftijd');
+            } else if (userData.who === 'volwassene') {
+                nextStep('step-volwassenen-vraag');
+            }
+        }
 
-    <div id="result-clb" class="hidden result">
-        <h2>CLB (Centrum voor Leerlingenbegeleiding)</h2>
-        <p>Het CLB is er voor vragen over leren, school, gezondheid en welzijn van leerlingen.</p>
-        <p><strong>Website:</strong> <a href="https://www.onderwijs.vlaanderen.be/clb" target="_blank">Website CLB</a></p>
-        <p><strong>Contact:</strong> Contacteer de school van je kind voor het juiste CLB-team of chat via CLBch@t.</p>
-        <button class="btn btn-primary" onclick="restart()">Opnieuw beginnen</button>
-    </div>
+        function showResult(resultType) {
+            const resultMap = {
+                'caw': 'result-caw',
+                'caw-geweld': 'result-caw-geweld',
+                'caw-middelen': 'result-caw-middelen',
+                'clb': 'result-clb',
+                'cgg': 'result-cgg',
+                'hvk': 'result-hvk',
+                'jac': 'result-jac',
+                'vaph': 'result-vaph',
+                'vk': 'result-vk',
+                'ocmw': 'result-ocmw',
+                'sleutel': 'result-sleutel'
+            };
+            
+            nextStep(resultMap[resultType]);
+        }
 
-    <div id="result-cgg" class="hidden result">
-        <h2>CGG (Centrum Geestelijke Gezondheidszorg)</h2>
-        <p>Voor gespecialiseerde hulp bij ernstige psychische problemen.</p>
-        <p><strong>Website:</strong> <a href="https://www.centrageestelijkegezondheidszorg.be/" target="_blank">Zoek een CGG</a></p>
-        <p><strong>Let op:</strong> Voor een CGG heb je meestal een verwijsbrief nodig van je huisarts of het CLB.</p>
-        <button class="btn btn-primary" onclick="restart()">Opnieuw beginnen</button>
-    </div>
-
-</div>
-
-<script>
-    let userWho = '';
-
-    function nextStep(stepId) {
-        // Verberg alle stappen
-        document.querySelectorAll('.container > div, .result').forEach(div => {
-            div.classList.add('hidden');
-        });
-        // Toon de gevraagde stap
-        document.getElementById(stepId).classList.remove('hidden');
-        window.scrollTo(0, 0);
-    }
-
-    function setWho(type) {
-        userWho = type;
-    }
-
-    function restart() {
-        location.reload();
-    }
-</script>
-
+        function restart() {
+            window.location.reload();
+        }
+    </script>
 </body>
 </html>

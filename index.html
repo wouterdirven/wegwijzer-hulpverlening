@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wegwijzer Hulpverlening Vlaanderen</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f4f4f9; color: #333; }
+        header { background: #004a99; color: white; padding: 1rem; text-align: center; }
+        .crisis-banner { background: #d9534f; color: white; padding: 10px; text-align: center; font-weight: bold; position: sticky; top: 0; z-index: 1000; }
+        .container { max-width: 800px; margin: 2rem auto; padding: 1.5rem; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .question { font-size: 1.2rem; margin-bottom: 1rem; font-weight: bold; }
+        .btn { display: block; width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; transition: background 0.3s; text-align: left; }
+        .btn:hover { background: #e2e6ea; }
+        .btn-primary { background: #007bff; color: white; text-align: center; }
+        .btn-primary:hover { background: #0056b3; }
+        .hidden { display: none; }
+        .result { padding: 15px; border-left: 5px solid #28a745; background: #f8f9fa; }
+        .nood { border-left: 5px solid #d9534f; background: #fff5f5; }
+        h2 { margin-top: 0; }
+    </style>
+</head>
+<body>
+
+<div class="crisis-banner">
+    Dringende nood? Bel 112 (Hulpdiensten) of 1813 (Zelfmoordlijn) of 1712 (Geweld)
+</div>
+
+<header>
+    <h1>Wegwijzer Hulpverlening</h1>
+</header>
+
+<div class="container" id="app">
+    <!-- START -->
+    <div id="step-start">
+        <h2>Welkom</h2>
+        <p>Beantwoord enkele korte vragen om de juiste hulpverlening in Vlaanderen te vinden. De site is anoniem en gratis.</p>
+        <button class="btn btn-primary" onclick="nextStep('step-who')">Start de vragenlijst</button>
+    </div>
+
+    <!-- VRAAG 1: WIE -->
+    <div id="step-who" class="hidden">
+        <p class="question">Voor wie zoek je hulp?</p>
+        <button class="btn" onclick="setWho('jongere'); nextStep('step-crisis')">Ik ben jonger dan 25 en zoek hulp voor mezelf</button>
+        <button class="btn" onclick="setWho('ouder'); nextStep('step-crisis')">Ik ben een ouder/opvoeder en zoek hulp voor mijn kind</button>
+        <button class="btn" onclick="setWho('volwassene'); nextStep('step-crisis')">Ik ben 25+ en zoek hulp voor mezelf</button>
+    </div>
+
+    <!-- VRAAG 2: CRISIS -->
+    <div id="step-crisis" class="hidden">
+        <p class="question">Is er NU sprake van direct gevaar of een ernstige crisis?</p>
+        <button class="btn" onclick="nextStep('result-crisis')">Ja, er is nu direct gevaar</button>
+        <button class="btn" onclick="nextStep('step-age-ouder')">Nee, er is geen direct gevaar</button>
+    </div>
+
+    <!-- STROOM OUDER - VRAAG 3: LEEFTIJD -->
+    <div id="step-age-ouder" class="hidden">
+        <p class="question">Hoe oud is je kind?</p>
+        <button class="btn" onclick="nextStep('step-problem-ouder')">0 tot 3 jaar</button>
+        <button class="btn" onclick="nextStep('step-problem-ouder')">3 tot 12 jaar</button>
+        <button class="btn" onclick="nextStep('step-problem-ouder')">12 tot 18 jaar</button>
+        <button class="btn" onclick="nextStep('step-problem-ouder')">18 tot 25 jaar</button>
+    </div>
+
+    <!-- STROOM OUDER - VRAAG 4: PROBLEEM -->
+    <div id="step-problem-ouder" class="hidden">
+        <p class="question">Waar gaat je grootste zorg over?</p>
+        <button class="btn" onclick="nextStep('result-caw')">Opvoeding, gezin of gedrag</button>
+        <button class="btn" onclick="nextStep('result-clb')">School, leren of pesten</button>
+        <button class="btn" onclick="nextStep('result-cgg')">Mentale gezondheid of emotionele problemen</button>
+    </div>
+
+    <!-- RESULTATEN -->
+    <div id="result-crisis" class="hidden result nood">
+        <h2>Contacteer direct hulp</h2>
+        <p>Bij direct gevaar, bel onmiddellijk:</p>
+        <ul>
+            <li><strong>112</strong> - Algemeen noodnummer</li>
+            <li><strong>101</strong> - Politie</li>
+            <li><strong>1712</strong> - Bij geweld, misbruik of kindermishandeling</li>
+        </ul>
+        <button class="btn btn-primary" onclick="restart()">Opnieuw beginnen</button>
+    </div>
+
+    <div id="result-caw" class="hidden result">
+        <h2>CAW (Centrum Algemeen Welzijnswerk)</h2>
+        <p>Het CAW helpt mensen met al hun vragen over welzijn. Voor ouders bieden ze opvoedingshulp en ondersteuning.</p>
+        <p><strong>Website:</strong> <a href="https://www.caw.be" target="_blank">www.caw.be</a></p>
+        <p><strong>Contact:</strong> Bel gratis 0800 13 500 (elke werkdag 9u-17u)</p>
+        <button class="btn btn-primary" onclick="restart()">Opnieuw beginnen</button>
+    </div>
+
+    <div id="result-clb" class="hidden result">
+        <h2>CLB (Centrum voor Leerlingenbegeleiding)</h2>
+        <p>Het CLB is er voor vragen over leren, school, gezondheid en welzijn van leerlingen.</p>
+        <p><strong>Website:</strong> <a href="https://www.onderwijs.vlaanderen.be/clb" target="_blank">Website CLB</a></p>
+        <p><strong>Contact:</strong> Contacteer de school van je kind voor het juiste CLB-team of chat via CLBch@t.</p>
+        <button class="btn btn-primary" onclick="restart()">Opnieuw beginnen</button>
+    </div>
+
+    <div id="result-cgg" class="hidden result">
+        <h2>CGG (Centrum Geestelijke Gezondheidszorg)</h2>
+        <p>Voor gespecialiseerde hulp bij ernstige psychische problemen.</p>
+        <p><strong>Website:</strong> <a href="https://www.geestelijkegezondheid.be/cgg" target="_blank">Zoek een CGG</a></p>
+        <p><strong>Let op:</strong> Voor een CGG heb je meestal een verwijsbrief nodig van je huisarts of het CLB.</p>
+        <button class="btn btn-primary" onclick="restart()">Opnieuw beginnen</button>
+    </div>
+
+</div>
+
+<script>
+    let userWho = '';
+
+    function nextStep(stepId) {
+        // Verberg alle stappen
+        document.querySelectorAll('.container > div, .result').forEach(div => {
+            div.classList.add('hidden');
+        });
+        // Toon de gevraagde stap
+        document.getElementById(stepId).classList.remove('hidden');
+        window.scrollTo(0, 0);
+    }
+
+    function setWho(type) {
+        userWho = type;
+    }
+
+    function restart() {
+        location.reload();
+    }
+</script>
+
+</body>
+</html>

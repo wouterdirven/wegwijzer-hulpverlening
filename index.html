@@ -266,6 +266,17 @@
             </div>
         </div>
 
+        <!-- Stap 2b: Geslacht -->
+        <div id="step-gender" class="step">
+            <h2 id="gender-title"></h2>
+            <div class="button-group">
+                <button class="btn" id="gender-btn-1"></button>
+                <button class="btn" id="gender-btn-2"></button>
+                <button class="btn" id="gender-btn-3"></button>
+                <button class="btn btn-secondary" onclick="nextStep('step-who')">← Terug</button>
+            </div>
+        </div>
+
         <!-- Stap 3: Crisisvraag -->
         <div id="step-crisis" class="step">
             <h2>Is er NU sprake van gevaar?</h2>
@@ -293,6 +304,20 @@
             <div class="button-group">
                 <button class="btn" onclick="routeAfterCrisis()">Verder met wegwijzer</button>
                 <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- VROUWENSTROOM START -->
+        <div id="step-vrouwen-start" class="step">
+            <h2>Vrouwen-specifieke hulp</h2>
+            <p>Je kunt kiezen voor gespecialiseerde hulp voor vrouwen, of doorgaan met de gewone wegwijzer.</p>
+            <p><strong>Waarover gaat het?</strong></p>
+            <div class="button-group">
+                <button class="btn" onclick="showResult('csg')">Seksueel geweld of grensoverschrijdend gedrag</button>
+                <button class="btn" onclick="showResult('caw-vrouwenopvang')">Partnergeweld of nood aan veilige opvang</button>
+                <button class="btn" onclick="showResult('huisarts-sensoa')">Zwangerschap, anticonceptie of menstruatieproblemen</button>
+                <button class="btn" onclick="showResult('sensoa')">Vragen over seksualiteit, relaties of consent</button>
+                <button class="btn btn-secondary" onclick="nextStep(getDefaultRouteStep())">Verder met de gewone wegwijzer →</button>
             </div>
         </div>
 
@@ -356,6 +381,114 @@
         </div>
 
         <!-- RESULTAAT PAGINA'S -->
+        <!-- CSG -->
+        <div id="result-csg" class="step">
+            <h2>Jouw hulpinstantie</h2>
+            <div class="help-card">
+                <h3>CSG - Centrum Seksueel Geweld</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                Het Centrum Seksueel Geweld biedt hulp bij seksueel geweld, verkrachting en grensoverschrijdend gedrag. Ze bieden medische zorg, psychologische ondersteuning, sporenonderzoek en juridisch advies. De hulp is vertrouwelijk en kan anoniem.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Via 1712:</strong> Meldpunt geweld (24/7, gratis)<br>
+                    <strong>Via ziekenhuis:</strong> Je kunt ook rechtstreeks naar de spoedafdeling van een ziekenhuis<br>
+                    <strong>Website:</strong> <a href="https://www.1712.be" target="_blank">www.1712.be</a></p>
+                </div>
+
+                <h4>Wat kun je doen?</h4>
+                <p>Bel 1712 voor advies en doorverwijzing naar het dichtstbijzijnde Centrum Seksueel Geweld. Je kunt er terecht binnen 7 dagen na het geweld voor sporenonderzoek, maar ook later voor hulp en begeleiding. De hulp is gratis en anoniem mogelijk.</p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- CAW Vrouwenopvang -->
+        <div id="result-caw-vrouwenopvang" class="step">
+            <h2>Jouw hulpinstantie</h2>
+            <div class="help-card">
+                <h3>CAW Vrouwenopvang</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                CAW Vrouwenopvang biedt veilige opvang en begeleiding voor vrouwen (en hun kinderen) die te maken hebben met partnergeweld of huiselijk geweld. Ze kunnen je helpen met een veiligheidsplan, tijdelijke opvang en begeleiding naar een zelfstandig leven. De hulp is vertrouwelijk en gratis.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Telefoon:</strong> 0800 13 500 (gratis, 24/7)<br>
+                    <strong>1712:</strong> Meldpunt geweld (24/7, gratis)<br>
+                    <strong>Website:</strong> <a href="https://www.caw.be" target="_blank">www.caw.be</a></p>
+                </div>
+
+                <h4>Wat kun je doen?</h4>
+                <p>Bel 0800 13 500 of 1712 om je situatie te bespreken. Ze kunnen je direct doorverwijzen naar een veilige opvanglocatie. De opvang is op geheime adressen voor je veiligheid. Onderdeel van het CAW, specifiek voor vrouwen in nood.</p>
+
+                <h4>Direct gevaar?</h4>
+                <p>Bij direct gevaar bel 112 (politie).</p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- Sensoa -->
+        <div id="result-sensoa" class="step">
+            <h2>Jouw hulpinstantie</h2>
+            <div class="help-card">
+                <h3>Sensoa</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                Sensoa is het Vlaams expertisecentrum voor seksuele gezondheid. Ze bieden informatie en advies over seksualiteit, relaties, consent, seksueel overdraagbare aandoeningen (soa's), anticonceptie en veilig vrijen. De hulp is laagdrempelig, gratis en anoniem mogelijk.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Website:</strong> <a href="https://www.sensoa.be" target="_blank">www.sensoa.be</a><br>
+                    <strong>Online hulp:</strong> Via de website kun je informatie vinden en vragen stellen<br>
+                    <strong>Zorgzoeker:</strong> Via de website vind je ook adressen van centra voor seksuele gezondheid bij jou in de buurt</p>
+                </div>
+
+                <h4>Wat kun je doen?</h4>
+                <p>Bezoek de website voor betrouwbare informatie over seksualiteit en relaties. Je kunt ook via de website een centrum voor seksuele gezondheid vinden waar je terecht kunt voor testen, advies en gratis anticonceptie. De hulp is gratis en laagdrempelig.</p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
+        <!-- Huisarts + Sensoa -->
+        <div id="result-huisarts-sensoa" class="step">
+            <h2>Jouw hulpinstanties</h2>
+            
+            <div class="help-card">
+                <h3>Huisarts</h3>
+                <p><strong>Wat kan de huisarts doen?</strong><br>
+                Voor zwangerschapsvragen, anticonceptie en menstruatieproblemen is de huisarts vaak het eerste aanspreekpunt. De huisarts kan je onderzoeken, voorschrijven en doorverwijzen naar een gynaecoloog als dat nodig is.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Maak een afspraak:</strong> Bel je eigen huisarts<br>
+                    <strong>Geen huisarts?</strong> Zoek een huisarts via <a href="https://www.zorgzoeker.be" target="_blank">www.zorgzoeker.be</a></p>
+                </div>
+            </div>
+
+            <div class="help-card" style="margin-top: 20px;">
+                <h3>Sensoa - Centrum voor Seksuele Gezondheid</h3>
+                <p><strong>Wat doen zij?</strong><br>
+                Centra voor seksuele gezondheid (verbonden aan Sensoa) bieden gratis of goedkope hulp bij anticonceptie, menstruatieproblemen en zwangerschapsvragen. Je kunt er terecht zonder verwijzing.</p>
+                
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><strong>Website:</strong> <a href="https://www.sensoa.be" target="_blank">www.sensoa.be</a><br>
+                    <strong>Vind een centrum:</strong> Via de website kun je een centrum bij jou in de buurt zoeken</p>
+                </div>
+
+                <h4>Wat kun je doen?</h4>
+                <p>Zoek via de Sensoa-website een centrum voor seksuele gezondheid bij jou in de buurt. De hulp is gratis of goedkoop en laagdrempelig. Je hoeft geen afspraak te maken bij sommige centra (check de website).</p>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="restart()">Opnieuw beginnen</button>
+            </div>
+        </div>
+
         <!-- CAW -->
         <div id="result-caw" class="step">
             <h2>Jouw hulpinstantie</h2>
@@ -615,7 +748,8 @@
     <script>
         let userData = {
             who: '',
-            age: ''
+            age: '',
+            gender: ''
         };
 
         function nextStep(stepId) {
@@ -628,6 +762,39 @@
 
         function setWho(type) {
             userData.who = type;
+            prepareGenderStep();
+            nextStep('step-gender');
+        }
+
+        function prepareGenderStep() {
+            const titleEl = document.getElementById('gender-title');
+            const btn1 = document.getElementById('gender-btn-1');
+            const btn2 = document.getElementById('gender-btn-2');
+            const btn3 = document.getElementById('gender-btn-3');
+
+            if (userData.who === 'ouders') {
+                titleEl.textContent = 'Wat is het geslacht van je kind?';
+                btn1.textContent = 'Jongen';
+                btn2.textContent = 'Meisje';
+                btn3.textContent = 'Zeg ik liever niet / Niet van belang';
+                
+                btn1.onclick = () => setGender('male');
+                btn2.onclick = () => setGender('female');
+                btn3.onclick = () => setGender('na');
+            } else {
+                titleEl.textContent = 'Wat is je geslacht?';
+                btn1.textContent = 'Man';
+                btn2.textContent = 'Vrouw';
+                btn3.textContent = 'Zeg ik liever niet / Niet van belang';
+                
+                btn1.onclick = () => setGender('male');
+                btn2.onclick = () => setGender('female');
+                btn3.onclick = () => setGender('na');
+            }
+        }
+
+        function setGender(value) {
+            userData.gender = value;
             nextStep('step-crisis');
         }
 
@@ -635,13 +802,23 @@
             userData.age = age;
         }
 
-        function routeAfterCrisis() {
+        function getDefaultRouteStep() {
             if (userData.who === 'ouders') {
-                nextStep('step-ouders-leeftijd');
+                return 'step-ouders-leeftijd';
             } else if (userData.who === 'jongere') {
-                nextStep('step-jongeren-leeftijd');
-            } else if (userData.who === 'volwassene') {
-                nextStep('step-volwassenen-vraag');
+                return 'step-jongeren-leeftijd';
+            } else {
+                return 'step-volwassenen-vraag';
+            }
+        }
+
+        function routeAfterCrisis() {
+            const defaultStep = getDefaultRouteStep();
+            
+            if (userData.gender === 'female') {
+                nextStep('step-vrouwen-start');
+            } else {
+                nextStep(defaultStep);
             }
         }
 
@@ -650,14 +827,18 @@
                 'caw': 'result-caw',
                 'caw-geweld': 'result-caw-geweld',
                 'caw-middelen': 'result-caw-middelen',
+                'caw-vrouwenopvang': 'result-caw-vrouwenopvang',
                 'clb': 'result-clb',
                 'cgg': 'result-cgg',
+                'csg': 'result-csg',
                 'hvk': 'result-hvk',
                 'jac': 'result-jac',
                 'vaph': 'result-vaph',
                 'vk': 'result-vk',
                 'ocmw': 'result-ocmw',
-                'sleutel': 'result-sleutel'
+                'sleutel': 'result-sleutel',
+                'sensoa': 'result-sensoa',
+                'huisarts-sensoa': 'result-huisarts-sensoa'
             };
             
             nextStep(resultMap[resultType]);

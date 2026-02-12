@@ -307,17 +307,25 @@
             </div>
         </div>
 
-        <!-- VROUWENSTROOM START -->
-        <div id="step-vrouwen-start" class="step">
+        <!-- NIEUWE STAP: Vrouwenhulp check -->
+        <div id="step-women-check" class="step">
+            <h2 id="women-check-title"></h2>
+            <p>We bieden ook gespecialiseerde hulp voor vrouwen/meisjes aan. Wil je deze opties bekijken?</p>
+            <div class="button-group">
+                <button class="btn" onclick="nextStep('step-women-topics')">Ja, toon vrouwen-specifieke hulp</button>
+                <button class="btn btn-secondary" onclick="continueToDefaultRoute()">Nee, verder met algemene wegwijzer</button>
+            </div>
+        </div>
+
+        <!-- VROUWENSTROOM TOPICS -->
+        <div id="step-women-topics" class="step">
             <h2>Vrouwen-specifieke hulp</h2>
-            <p>Je kunt kiezen voor gespecialiseerde hulp voor vrouwen, of doorgaan met de gewone wegwijzer.</p>
             <p><strong>Waarover gaat het?</strong></p>
             <div class="button-group">
                 <button class="btn" onclick="showResult('csg')">Seksueel geweld of grensoverschrijdend gedrag</button>
                 <button class="btn" onclick="showResult('caw-vrouwenopvang')">Partnergeweld of nood aan veilige opvang</button>
                 <button class="btn" onclick="showResult('huisarts-sensoa')">Zwangerschap, anticonceptie of menstruatieproblemen</button>
                 <button class="btn" onclick="showResult('sensoa')">Vragen over seksualiteit, relaties of consent</button>
-                <button class="btn btn-secondary" onclick="nextStep(getDefaultRouteStep())">Verder met de gewone wegwijzer →</button>
             </div>
         </div>
 
@@ -802,6 +810,21 @@
             userData.age = age;
         }
 
+        function routeAfterCrisis() {
+            prepareWomenCheckStep();
+            nextStep('step-women-check');
+        }
+
+        function prepareWomenCheckStep() {
+            const titleEl = document.getElementById('women-check-title');
+            
+            if (userData.who === 'ouders') {
+                titleEl.textContent = 'Wil je hulp specifiek voor meisjes/vrouwen bekijken?';
+            } else {
+                titleEl.textContent = 'Wil je vrouwen-specifieke hulp bekijken?';
+            }
+        }
+
         function getDefaultRouteStep() {
             if (userData.who === 'ouders') {
                 return 'step-ouders-leeftijd';
@@ -812,14 +835,9 @@
             }
         }
 
-        function routeAfterCrisis() {
+        function continueToDefaultRoute() {
             const defaultStep = getDefaultRouteStep();
-            
-            if (userData.gender === 'female') {
-                nextStep('step-vrouwen-start');
-            } else {
-                nextStep(defaultStep);
-            }
+            nextStep(defaultStep);
         }
 
         function showResult(resultType) {
